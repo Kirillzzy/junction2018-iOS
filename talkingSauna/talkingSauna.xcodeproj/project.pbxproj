@@ -12,9 +12,17 @@
 		9FB0CEE021A88840007666CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FB0CEDE21A88840007666CA /* Main.storyboard */; };
 		9FB0CEE221A88841007666CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FB0CEE121A88841007666CA /* Assets.xcassets */; };
 		9FB0CEE521A88841007666CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FB0CEE321A88841007666CA /* LaunchScreen.storyboard */; };
+		9FB0CEF521A89020007666CA /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CEF021A89020007666CA /* UIColor+Hex.swift */; };
+		9FB0CEF621A89020007666CA /* UIFont+AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CEF121A89020007666CA /* UIFont+AppFonts.swift */; };
+		9FB0CEF721A89020007666CA /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CEF221A89020007666CA /* UIView+Shadows.swift */; };
+		9FB0CEF821A89020007666CA /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CEF321A89020007666CA /* String+Range.swift */; };
+		9FB0CEF921A89020007666CA /* String+Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CEF421A89020007666CA /* String+Localize.swift */; };
+		FE5E57E586E5597858F9A4E3 /* Pods_talkingSauna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7369C85C6F3D4665AD71B124 /* Pods_talkingSauna.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A735859502D95B195229B00 /* Pods-talkingSauna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-talkingSauna.debug.xcconfig"; path = "Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna.debug.xcconfig"; sourceTree = "<group>"; };
+		7369C85C6F3D4665AD71B124 /* Pods_talkingSauna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_talkingSauna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FB0CED721A88840007666CA /* talkingSauna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = talkingSauna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FB0CEDA21A88840007666CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FB0CEDC21A88840007666CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +30,12 @@
 		9FB0CEE121A88841007666CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9FB0CEE421A88841007666CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9FB0CEE621A88841007666CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9FB0CEF021A89020007666CA /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		9FB0CEF121A89020007666CA /* UIFont+AppFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+AppFonts.swift"; sourceTree = "<group>"; };
+		9FB0CEF221A89020007666CA /* UIView+Shadows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
+		9FB0CEF321A89020007666CA /* String+Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Range.swift"; sourceTree = "<group>"; };
+		9FB0CEF421A89020007666CA /* String+Localize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localize.swift"; sourceTree = "<group>"; };
+		A9AA5C4B4C5DE5BBF7A2EEC3 /* Pods-talkingSauna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-talkingSauna.release.xcconfig"; path = "Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +43,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE5E57E586E5597858F9A4E3 /* Pods_talkingSauna.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		153940CA9B7278C71CCD6490 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7369C85C6F3D4665AD71B124 /* Pods_talkingSauna.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		359E8A3ACAD68BFAAB0CD6C8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0A735859502D95B195229B00 /* Pods-talkingSauna.debug.xcconfig */,
+				A9AA5C4B4C5DE5BBF7A2EEC3 /* Pods-talkingSauna.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9FB0CECE21A8883F007666CA = {
 			isa = PBXGroup;
 			children = (
 				9FB0CED921A88840007666CA /* talkingSauna */,
 				9FB0CED821A88840007666CA /* Products */,
+				359E8A3ACAD68BFAAB0CD6C8 /* Pods */,
+				153940CA9B7278C71CCD6490 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +89,50 @@
 			isa = PBXGroup;
 			children = (
 				9FB0CEDA21A88840007666CA /* AppDelegate.swift */,
-				9FB0CEDC21A88840007666CA /* ViewController.swift */,
-				9FB0CEDE21A88840007666CA /* Main.storyboard */,
-				9FB0CEE121A88841007666CA /* Assets.xcassets */,
-				9FB0CEE321A88841007666CA /* LaunchScreen.storyboard */,
-				9FB0CEE621A88841007666CA /* Info.plist */,
+				9FB0CEEC21A888EF007666CA /* ViewControllers */,
+				9FB0CEEF21A88FD6007666CA /* Extensions */,
+				9FB0CEED21A888FC007666CA /* Storyboards */,
+				9FB0CEEE21A88903007666CA /* Config */,
 			);
 			path = talkingSauna;
+			sourceTree = "<group>";
+		};
+		9FB0CEEC21A888EF007666CA /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CEDC21A88840007666CA /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9FB0CEED21A888FC007666CA /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CEDE21A88840007666CA /* Main.storyboard */,
+				9FB0CEE321A88841007666CA /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		9FB0CEEE21A88903007666CA /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CEE121A88841007666CA /* Assets.xcassets */,
+				9FB0CEE621A88841007666CA /* Info.plist */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		9FB0CEEF21A88FD6007666CA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CEF421A89020007666CA /* String+Localize.swift */,
+				9FB0CEF321A89020007666CA /* String+Range.swift */,
+				9FB0CEF021A89020007666CA /* UIColor+Hex.swift */,
+				9FB0CEF121A89020007666CA /* UIFont+AppFonts.swift */,
+				9FB0CEF221A89020007666CA /* UIView+Shadows.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +142,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9FB0CEE921A88841007666CA /* Build configuration list for PBXNativeTarget "talkingSauna" */;
 			buildPhases = (
+				16324A2265AA4305D68BD1D9 /* [CP] Check Pods Manifest.lock */,
 				9FB0CED321A88840007666CA /* Sources */,
 				9FB0CED421A88840007666CA /* Frameworks */,
 				9FB0CED521A88840007666CA /* Resources */,
+				B4799AE84A66218E2B220148 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,13 +203,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16324A2265AA4305D68BD1D9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-talkingSauna-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4799AE84A66218E2B220148 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9FB0CED321A88840007666CA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FB0CEF721A89020007666CA /* UIView+Shadows.swift in Sources */,
+				9FB0CEF521A89020007666CA /* UIColor+Hex.swift in Sources */,
 				9FB0CEDD21A88840007666CA /* ViewController.swift in Sources */,
+				9FB0CEF921A89020007666CA /* String+Localize.swift in Sources */,
 				9FB0CEDB21A88840007666CA /* AppDelegate.swift in Sources */,
+				9FB0CEF821A89020007666CA /* String+Range.swift in Sources */,
+				9FB0CEF621A89020007666CA /* UIFont+AppFonts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,11 +397,12 @@
 		};
 		9FB0CEEA21A88841007666CA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A735859502D95B195229B00 /* Pods-talkingSauna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KH2KDZEEE3;
-				INFOPLIST_FILE = talkingSauna/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/talkingSauna/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -298,11 +416,12 @@
 		};
 		9FB0CEEB21A88841007666CA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A9AA5C4B4C5DE5BBF7A2EEC3 /* Pods-talkingSauna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = KH2KDZEEE3;
-				INFOPLIST_FILE = talkingSauna/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/talkingSauna/Config/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

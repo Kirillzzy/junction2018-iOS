@@ -1,0 +1,6 @@
+framework module Pods_talkingSauna {
+  umbrella header "Pods-talkingSauna-umbrella.h"
+
+  export *
+  module * { export * }
+}

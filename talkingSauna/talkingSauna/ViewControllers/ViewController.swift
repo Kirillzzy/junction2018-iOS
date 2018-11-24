@@ -16,18 +16,91 @@ class ViewController: UIViewController {
       animateButton.layer.masksToBounds = true
       animateButton.backgroundColor = .white
       animateButton.setTitle("Hearing..", for: .normal)
-      animateButton.titleLabel?.font = UIFont.appFont(.systemMediumFont(size: 24))
+      animateButton.titleLabel?.font = UIFont.appFont(.systemMediumFont(size: 22))
+      animateButton.layer.cornerRadius = 60
 //      animateButton.withShadow(color: UIColor.black)
+    }
+  }
+  @IBOutlet var firstTitleLabel: UILabel! {
+    didSet {
+      firstTitleLabel.textColor = .white
+      firstTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 50))
+      firstTitleLabel.text = ""
+    }
+  }
+  @IBOutlet var secondTitleLabel: UILabel! {
+    didSet {
+      secondTitleLabel.textColor = .white
+      secondTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 50))
+      secondTitleLabel.text = ""
+    }
+  }
+  @IBOutlet var thirdTitleLabel: UILabel! {
+    didSet {
+      thirdTitleLabel.textColor = .white
+      thirdTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 50))
+      thirdTitleLabel.text = ""
+    }
+  }
+  @IBOutlet var fourthTitleLabel: UILabel! {
+    didSet {
+      fourthTitleLabel.textColor = .white
+      fourthTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 50))
+      fourthTitleLabel.text = ""
+    }
+  }
+  @IBOutlet var fifthTitleLabel: UILabel! {
+    didSet {
+      fifthTitleLabel.textColor = .white
+      fifthTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 24))
+      fifthTitleLabel.text = ""
+    }
+  }
+  @IBOutlet var firstDescriptionLabel: UILabel! {
+    didSet {
+      firstDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      firstDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      firstDescriptionLabel.text = "inside"
+    }
+  }
+  @IBOutlet var secondDescriptionLabel: UILabel! {
+    didSet {
+      secondDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      secondDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      secondDescriptionLabel.text = "outside"
+    }
+  }
+  @IBOutlet var thirdDescriptionLabel: UILabel! {
+    didSet {
+      thirdDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      thirdDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      thirdDescriptionLabel.text = "stove"
+    }
+  }
+  @IBOutlet var fourthDescriptionLabel: UILabel! {
+    didSet {
+      fourthDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      fourthDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      fourthDescriptionLabel.text = "oxygen"
+    }
+  }
+  @IBOutlet var fifthDescriptionLabel: UILabel! {
+    didSet {
+      fifthDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      fifthDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      fifthDescriptionLabel.text = "was the highest\ntemperature"
     }
   }
   private var playAnimation = true
   var pastelView: PastelView!
   var buttonGradientLayer: CAGradientLayer!
   var longPollService: LongPollSwiftService?
+  var timer: Timer?
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    updateData()
     pastelView = PastelView(frame: view.bounds)
     
     // Custom Direction
@@ -38,7 +111,7 @@ class ViewController: UIViewController {
     pastelView.animationDuration = 3
     
     // Custom Color
-    pastelView.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
+    pastelView.setColors([UIColor(red: 150/255, green: 39/255, blue: 176/255, alpha: 1.0),
                           UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
                           UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
                           UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
@@ -61,17 +134,38 @@ class ViewController: UIViewController {
     super.viewDidAppear(animated)
     playAnimation = true
     springImageView()
+    
+    timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] _ in
+      self?.updateData()
+    })
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    timer?.invalidate()
   }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     pastelView.frame = view.bounds
     buttonGradientLayer.frame = animateButton.bounds
-    animateButton.layer.cornerRadius = animateButton.frame.height / 2
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
+  }
+  
+  func updateData() {
+    NetworkManager.sendRequest(with: "measurements", completion: { json in
+      guard let json = json else { return }
+      
+      DispatchQueue.main.async { [weak self] in
+        self?.firstTitleLabel.text = json["inside"].stringValue + "°"
+        self?.secondTitleLabel.text = json["outdoor"].stringValue + "°"
+        self?.thirdTitleLabel.text = json["stove"].stringValue + "°"
+        self?.fourthTitleLabel.text = json["oxygen"].stringValue + "%"
+        self?.fifthTitleLabel.text = json["highest_temperature"].stringValue + "°"
+      }
+    })
   }
   
   func springImageView() {

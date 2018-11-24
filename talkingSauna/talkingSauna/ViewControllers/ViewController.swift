@@ -11,7 +11,19 @@ import Pastel
 
 class ViewController: UIViewController {
   
+  @IBOutlet var animateButton: UIButton! {
+    didSet {
+      animateButton.layer.masksToBounds = true
+      animateButton.backgroundColor = .white
+      animateButton.setTitle("Hearing..", for: .normal)
+      animateButton.titleLabel?.font = UIFont.appFont(.systemMediumFont(size: 24))
+//      animateButton.withShadow(color: UIColor.black)
+    }
+  }
+  private var playAnimation = true
   var pastelView: PastelView!
+  var buttonGradientLayer: CAGradientLayer!
+  var longPollService: LongPollSwiftService?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -23,7 +35,7 @@ class ViewController: UIViewController {
     pastelView.endPastelPoint = .topRight
     
     // Custom Duration
-    pastelView.animationDuration = 3.0
+    pastelView.animationDuration = 3
     
     // Custom Color
     pastelView.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
@@ -36,15 +48,65 @@ class ViewController: UIViewController {
     
     pastelView.startAnimation()
     view.insertSubview(pastelView, at: 0)
+    
+    buttonGradientLayer = CAGradientLayer()
+    buttonGradientLayer.colors = [UIColor(hexString: "1782FF").cgColor,
+                                  UIColor(hexString: "0A05FF").cgColor]
+    animateButton.layer.insertSublayer(buttonGradientLayer, at: 0)
+    
+    longPollService = LongPollSwiftService(longPollUrlInitialString: "reset", delegate: self)
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    playAnimation = true
+    springImageView()
   }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-      pastelView.frame = view.bounds
+    pastelView.frame = view.bounds
+    buttonGradientLayer.frame = animateButton.bounds
+    animateButton.layer.cornerRadius = animateButton.frame.height / 2
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
   
+  func springImageView() {
+    if !playAnimation { return }
+    
+    UIView.animate(withDuration: 1, delay: 0, options: .curveEaseIn, animations: { [weak self] in
+      self?.animateButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+      self?.animateButton.layoutIfNeeded()
+    }) { [weak self] _ in
+      UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.2,
+                     initialSpringVelocity: 5, options: .curveEaseInOut,
+                     animations: { [weak self] in
+                      self?.animateButton.transform = .identity
+                      self?.animateButton.layoutIfNeeded()
+        }, completion: { [weak self] _ in
+          self?.springImageView()
+      })
+    }
+  }
+  
+  @IBAction func animateButtonAction(_ sender: Any) {
+//    playAnimation = !playAnimation
+//    if playAnimation {
+//      springImageView()
+//    }
+  }
+  
+}
+
+extension ViewController: LongPollSwiftServiceDelegate {
+  func longPollService(_ service: LongPollSwiftService, jsonEvents: JSON) {
+    if jsonEvents["type"].stringValue == "reload" {
+      longPollService?.startLongPoll()
+      return
+    }
+    print(jsonEvents)
+  }
 }

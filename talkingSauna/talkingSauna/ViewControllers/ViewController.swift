@@ -10,6 +10,7 @@ import UIKit
 import Pastel
 import Charts
 import Speech
+import AVKit
 
 class ViewController: UIViewController {
   
@@ -139,7 +140,7 @@ class ViewController: UIViewController {
   var timer: Timer?
   var points = [Double]()
   var lastXTime: Double = 0
-  var hideInTime: TimeInterval = 0
+  var hideInTime: DispatchTime = DispatchTime.now()
   var quality: Double = 0 {
     didSet {
       var string = ""
@@ -206,7 +207,7 @@ class ViewController: UIViewController {
     super.viewDidAppear(animated)
     playAnimation = true
     
-    timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [weak self] _ in
+    timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { [weak self] _ in
       self?.updateData()
     })
     
@@ -333,6 +334,8 @@ class ViewController: UIViewController {
       playAnimation = true
       springImageView()
       animateButton.setImage(#imageLiteral(resourceName: "img_button_tapped"), for: .normal)
+      questionView.configure(text: "")
+      showQuestionView(true)
       try startRecording()
     } catch {
       print("error")
@@ -349,9 +352,37 @@ extension ViewController: LongPollSwiftServiceDelegate {
       return
     }
     if jsonEvents["type"].stringValue == "text" {
-      AudioHelper.playText(string: jsonEvents["message"].stringValue)
+      let string = jsonEvents["message"].stringValue
+      AudioHelper.playText(string: string)
+      DispatchQueue.main.async { [weak self] in
+        self?.questionView.configure(text: string)
+        self?.showQuestionView(true)
+      }
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.5) { [weak self] in
+        self?.showQuestionView(false)
+      }
+    }
+    if jsonEvents["type"].stringValue == "karaoke" {
+      let string = jsonEvents["message"].stringValue
+      DispatchQueue.main.async { [weak self] in
+        AudioHelper.playText(string: string)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1, execute: {
+          self?.playKaraoke()
+        })
+      }
     }
     print(jsonEvents)
+  }
+  
+  func playKaraoke() {
+    let random = Int(arc4random_uniform(3) + 1)
+    let videoURL = URL(string: "http://172.104.239.97:9696/video\(random).mp4")
+    let player = AVPlayer(url: videoURL!)
+    let playerViewController = AVPlayerViewController()
+    playerViewController.player = player
+    self.present(playerViewController, animated: true) {
+      playerViewController.player?.play()
+    }
   }
 }
 
@@ -360,7 +391,6 @@ extension ViewController {
   func showSpeechText(string: String) {
     questionView.configure(text: string)
     showQuestionView(true)
-    hideInTime = Date().timeIntervalSince1970 + 2
   }
   
   func authorize() {
@@ -403,8 +433,6 @@ extension ViewController {
     
     try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default)
     try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.record, mode: .default)
-//    try audioSession.setMode(AVAudioSession.Mode.measurement)
-//    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
     
     recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
     
@@ -456,10 +484,9 @@ extension ViewController {
       animateButton.setImage(#imageLiteral(resourceName: "img_button"), for: .normal)
       let sendString = speechResult.bestTranscription.formattedString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
       NetworkManager.sendRequest(with: "talk?message=\(sendString)") { _ in }
-      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { [weak self] in
         self?.showQuestionView(false)
       }
-//      showSpeechText(string: speechResult.bestTranscription.formattedString)
     }
   }
   

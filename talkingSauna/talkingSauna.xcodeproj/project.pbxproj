@@ -23,6 +23,10 @@
 		9FB0CF0521A960ED007666CA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0421A960ED007666CA /* NetworkManager.swift */; };
 		9FB0CF0721A961C5007666CA /* KeysType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0621A961C5007666CA /* KeysType.swift */; };
 		9FB0CF0A21A99E88007666CA /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0921A99E88007666CA /* AudioHelper.swift */; };
+		9FB0CF1221A9AE6F007666CA /* QuestionViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0F21A9AE6F007666CA /* QuestionViewProtocol.swift */; };
+		9FB0CF1321A9AE6F007666CA /* QuestionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB0CF1021A9AE6F007666CA /* QuestionView.xib */; };
+		9FB0CF1421A9AE6F007666CA /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF1121A9AE6F007666CA /* QuestionView.swift */; };
+		9FB0CF1621A9B011007666CA /* UIView+Nibload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF1521A9B011007666CA /* UIView+Nibload.swift */; };
 		FE5E57E586E5597858F9A4E3 /* Pods_talkingSauna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7369C85C6F3D4665AD71B124 /* Pods_talkingSauna.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +51,10 @@
 		9FB0CF0421A960ED007666CA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9FB0CF0621A961C5007666CA /* KeysType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysType.swift; sourceTree = "<group>"; };
 		9FB0CF0921A99E88007666CA /* AudioHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioHelper.swift; sourceTree = "<group>"; };
+		9FB0CF0F21A9AE6F007666CA /* QuestionViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewProtocol.swift; sourceTree = "<group>"; };
+		9FB0CF1021A9AE6F007666CA /* QuestionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionView.xib; sourceTree = "<group>"; };
+		9FB0CF1121A9AE6F007666CA /* QuestionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		9FB0CF1521A9B011007666CA /* UIView+Nibload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Nibload.swift"; sourceTree = "<group>"; };
 		A9AA5C4B4C5DE5BBF7A2EEC3 /* Pods-talkingSauna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-talkingSauna.release.xcconfig"; path = "Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +110,7 @@
 			children = (
 				9FB0CEDA21A88840007666CA /* AppDelegate.swift */,
 				9FB0CEEC21A888EF007666CA /* ViewControllers */,
+				9FB0CF0B21A9AE3A007666CA /* Views */,
 				9FB0CEFC21A9605B007666CA /* Helpers */,
 				9FB0CEEF21A88FD6007666CA /* Extensions */,
 				9FB0CEED21A888FC007666CA /* Storyboards */,
@@ -144,6 +153,7 @@
 				9FB0CEF021A89020007666CA /* UIColor+Hex.swift */,
 				9FB0CEF121A89020007666CA /* UIFont+AppFonts.swift */,
 				9FB0CEF221A89020007666CA /* UIView+Shadows.swift */,
+				9FB0CF1521A9B011007666CA /* UIView+Nibload.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -167,6 +177,24 @@
 				9FB0CEFF21A96074007666CA /* LongPollSwiftService.swift */,
 			);
 			path = LongPoll;
+			sourceTree = "<group>";
+		};
+		9FB0CF0B21A9AE3A007666CA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CF0E21A9AE50007666CA /* QuestionView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9FB0CF0E21A9AE50007666CA /* QuestionView */ = {
+			isa = PBXGroup;
+			children = (
+				9FB0CF1121A9AE6F007666CA /* QuestionView.swift */,
+				9FB0CF1021A9AE6F007666CA /* QuestionView.xib */,
+				9FB0CF0F21A9AE6F007666CA /* QuestionViewProtocol.swift */,
+			);
+			path = QuestionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +257,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FB0CF1321A9AE6F007666CA /* QuestionView.xib in Resources */,
 				9FB0CEE521A88841007666CA /* LaunchScreen.storyboard in Resources */,
 				9FB0CEE221A88841007666CA /* Assets.xcassets in Resources */,
 				9FB0CEE021A88840007666CA /* Main.storyboard in Resources */,
@@ -293,8 +322,11 @@
 				9FB0CEDD21A88840007666CA /* ViewController.swift in Sources */,
 				9FB0CEF921A89020007666CA /* String+Localize.swift in Sources */,
 				9FB0CEDB21A88840007666CA /* AppDelegate.swift in Sources */,
+				9FB0CF1421A9AE6F007666CA /* QuestionView.swift in Sources */,
 				9FB0CF0121A96074007666CA /* LongPollSwiftService.swift in Sources */,
+				9FB0CF1621A9B011007666CA /* UIView+Nibload.swift in Sources */,
 				9FB0CEF821A89020007666CA /* String+Range.swift in Sources */,
+				9FB0CF1221A9AE6F007666CA /* QuestionViewProtocol.swift in Sources */,
 				9FB0CEF621A89020007666CA /* UIFont+AppFonts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

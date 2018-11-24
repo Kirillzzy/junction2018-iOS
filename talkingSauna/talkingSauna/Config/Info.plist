@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We need your speech for talking Sauna</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your microphone will be used to record your speech for recognition.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Talking Sauna</string>
 	<key>CFBundleExecutable</key>

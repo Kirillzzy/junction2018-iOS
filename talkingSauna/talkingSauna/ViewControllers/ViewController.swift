@@ -9,6 +9,7 @@
 import UIKit
 import Pastel
 import Charts
+import Speech
 
 class ViewController: UIViewController {
   
@@ -108,6 +109,7 @@ class ViewController: UIViewController {
       askLabel.text = "Ask current temperature"
     }
   }
+  @IBOutlet var questionView: QuestionView!
   @IBOutlet var chartView: LineChartView! {
     didSet {
       chartView.noDataText = ""
@@ -133,9 +135,11 @@ class ViewController: UIViewController {
   private var playAnimation = true
   var pastelView: PastelView!
   var longPollService: LongPollSwiftService?
+  var isShownQuestionView = false
   var timer: Timer?
   var points = [Double]()
   var lastXTime: Double = 0
+  var hideInTime: TimeInterval = 0
   var quality: Double = 0 {
     didSet {
       var string = ""
@@ -162,10 +166,17 @@ class ViewController: UIViewController {
       mainTitleLabel.text = string
     }
   }
+  // Speech
+  private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+  private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+  private var recognitionTask: SFSpeechRecognitionTask?
+  private let audioEngine = AVAudioEngine()
+  var speechResult = SFSpeechRecognitionResult()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    questionView.alpha = 0
     updateData(first: "m_cache", second: "last_measurements")
     pastelView = PastelView(frame: view.bounds)
     
@@ -194,11 +205,12 @@ class ViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     playAnimation = true
-    springImageView()
     
     timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [weak self] _ in
       self?.updateData()
     })
+    
+    authorize()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -212,6 +224,16 @@ class ViewController: UIViewController {
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
+  }
+  
+  func showQuestionView(_ value: Bool = true) {
+    if !isShownQuestionView, value {
+      questionView.show(value)
+      isShownQuestionView = true
+    } else if isShownQuestionView, !value {
+      questionView.show(value)
+      isShownQuestionView = false
+    }
   }
   
   func updateData(first: String = "measurements", second: String = "last_measurement") {
@@ -307,14 +329,19 @@ class ViewController: UIViewController {
   }
   
   @IBAction func animateButtonAction(_ sender: Any) {
-//    playAnimation = !playAnimation
-//    if playAnimation {
-//      springImageView()
-//    }
+    do {
+      playAnimation = true
+      springImageView()
+      animateButton.setImage(#imageLiteral(resourceName: "img_button_tapped"), for: .normal)
+      try startRecording()
+    } catch {
+      print("error")
+    }
   }
   
 }
 
+// MARK: Long poll
 extension ViewController: LongPollSwiftServiceDelegate {
   func longPollService(_ service: LongPollSwiftService, jsonEvents: JSON) {
     if jsonEvents["type"].stringValue == "reload" {
@@ -325,5 +352,122 @@ extension ViewController: LongPollSwiftServiceDelegate {
       AudioHelper.playText(string: jsonEvents["message"].stringValue)
     }
     print(jsonEvents)
+  }
+}
+
+// MARK: Speech
+extension ViewController {
+  func showSpeechText(string: String) {
+    questionView.configure(text: string)
+    showQuestionView(true)
+    hideInTime = Date().timeIntervalSince1970 + 2
+  }
+  
+  func authorize() {
+    SFSpeechRecognizer.requestAuthorization { [weak self] authStatus in
+      // The callback may not be called on the main thread. Add an
+      // operation to the main queue to update the record button's state.
+      OperationQueue.main.addOperation {
+        var alertTitle = ""
+        var alertMsg = ""
+        
+        switch authStatus {
+        case .authorized:
+          print("authorized")
+        case .denied:
+          alertTitle = "Speech recognizer not allowed"
+          alertMsg = "You enable the recgnizer in Settings"
+          
+        case .restricted, .notDetermined:
+          alertTitle = "Could not start the speech recognizer"
+          alertMsg = "Check your internect connection and try again"
+          
+        }
+        if alertTitle != "" {
+          let alert = UIAlertController(title: alertTitle, message: alertMsg, preferredStyle: .alert)
+          alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self?.dismiss(animated: true, completion: nil)
+          }))
+          
+          self?.present(alert, animated: true, completion: nil)
+        }
+      }
+    }
+  }
+  
+  private func startRecording() throws {
+    if audioEngine.isRunning { return }
+    
+    let timer = Timer(timeInterval: 5, target: self, selector: #selector(ViewController.timerEnded), userInfo: nil, repeats: false)
+    RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
+    
+    let audioSession = AVAudioSession.sharedInstance()
+    try audioSession.setCategory(AVAudioSession.Category.record, mode: .default)
+    try audioSession.setMode(AVAudioSession.Mode.measurement)
+    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+    
+    recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+    
+    guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create the recognition request") }
+    
+    // Configure request so that results are returned before audio recording is finished
+    recognitionRequest.shouldReportPartialResults = true
+    
+    // A recognition task is used for speech recognition sessions
+    // A reference for the task is saved so it can be cancelled
+    recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { [weak self] result, error in
+      var isFinal = false
+      
+      if let result = result {
+        print("result: \(result.isFinal)")
+        isFinal = result.isFinal
+        
+        self?.speechResult = result
+        
+        let string = result.bestTranscription.formattedString
+        self?.showSpeechText(string: string)
+        print(string)
+      }
+      
+      if error != nil || isFinal {
+        self?.audioEngine.stop()
+        self?.audioEngine.inputNode.removeTap(onBus: 0)
+        
+        self?.recognitionRequest = nil
+        self?.recognitionTask = nil
+      }
+    }
+    
+    let recordingFormat = self.audioEngine.inputNode.outputFormat(forBus: 0)
+    self.audioEngine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+      self.recognitionRequest?.append(buffer)
+    }
+    
+    print("Begin recording")
+    audioEngine.prepare()
+    try audioEngine.start()
+  }
+  
+  @objc func timerEnded() {
+    // If the audio recording engine is running stop it and remove the SFSpeechRecognitionTask
+    if audioEngine.isRunning {
+      playAnimation = false
+      stopRecording()
+      animateButton.setImage(#imageLiteral(resourceName: "img_button"), for: .normal)
+      DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
+        self?.showQuestionView(false)
+      }
+//      showSpeechText(string: speechResult.bestTranscription.formattedString)
+    }
+  }
+  
+  func stopRecording() {
+    audioEngine.stop()
+    recognitionRequest?.endAudio()
+    // Cancel the previous task if it's running
+    if let recognitionTask = recognitionTask {
+      recognitionTask.cancel()
+      self.recognitionTask = nil
+    }
   }
 }

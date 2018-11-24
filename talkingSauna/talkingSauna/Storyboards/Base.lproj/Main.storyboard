@@ -124,6 +124,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iz5-55-m0C" customClass="QuestionView" customModule="talkingSauna" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -133,6 +136,7 @@
                             <constraint firstItem="cYe-Mx-VRR" firstAttribute="width" secondItem="F9f-2a-6bs" secondAttribute="width" id="4sV-jx-3wq"/>
                             <constraint firstItem="W7H-vG-hHI" firstAttribute="top" secondItem="Q0X-3c-Imx" secondAttribute="bottom" constant="40" id="4sa-IU-Rjn"/>
                             <constraint firstItem="W7H-vG-hHI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="6VL-D4-XHo"/>
+                            <constraint firstAttribute="trailing" secondItem="iz5-55-m0C" secondAttribute="trailing" id="89h-Bv-mEI"/>
                             <constraint firstItem="19a-9T-Ndm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="Avv-p6-Woz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oCW-h8-JPC" secondAttribute="trailing" id="B8y-k4-Vmb"/>
                             <constraint firstItem="ei9-kM-jRM" firstAttribute="width" secondItem="W7H-vG-hHI" secondAttribute="width" id="CBV-le-BtS"/>
@@ -150,10 +154,13 @@
                             <constraint firstItem="Djd-9W-ckv" firstAttribute="top" secondItem="19a-9T-Ndm" secondAttribute="bottom" constant="40" id="TJg-5J-iwG"/>
                             <constraint firstItem="jMq-0d-yaJ" firstAttribute="width" secondItem="Q0X-3c-Imx" secondAttribute="width" id="Tih-g0-YvK"/>
                             <constraint firstItem="1lh-us-b4m" firstAttribute="top" secondItem="Djd-9W-ckv" secondAttribute="bottom" constant="8" id="Vfe-vT-KqF"/>
+                            <constraint firstItem="iz5-55-m0C" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="YHe-Xn-2Bi"/>
                             <constraint firstItem="cYe-Mx-VRR" firstAttribute="leading" secondItem="F9f-2a-6bs" secondAttribute="trailing" constant="16" id="ZJE-S0-iUT"/>
                             <constraint firstAttribute="trailing" secondItem="G45-cD-E8Z" secondAttribute="trailing" constant="24" id="cTP-kT-Ujl"/>
                             <constraint firstAttribute="trailing" secondItem="dFb-ae-IfX" secondAttribute="trailing" constant="24" id="dra-qp-uBI"/>
+                            <constraint firstItem="iz5-55-m0C" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="e27-zy-o9I"/>
                             <constraint firstItem="dFb-ae-IfX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="24" id="em6-1N-1Fm"/>
+                            <constraint firstAttribute="bottom" secondItem="iz5-55-m0C" secondAttribute="bottom" id="gYW-zK-yhz"/>
                             <constraint firstItem="G45-cD-E8Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="24" id="iXd-yu-F2T"/>
                             <constraint firstItem="tol-11-cW9" firstAttribute="width" secondItem="19a-9T-Ndm" secondAttribute="width" id="jJN-UQ-IjA"/>
                             <constraint firstItem="Djd-9W-ckv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="jYt-ZS-n1B"/>
@@ -183,6 +190,7 @@
                         <outlet property="fourthTitleLabel" destination="ei9-kM-jRM" id="Zw5-10-KkZ"/>
                         <outlet property="mainDescriptionLabel" destination="G45-cD-E8Z" id="Pl9-ZA-ker"/>
                         <outlet property="mainTitleLabel" destination="dFb-ae-IfX" id="itD-oW-Of3"/>
+                        <outlet property="questionView" destination="iz5-55-m0C" id="t6F-fh-K3V"/>
                         <outlet property="secondDescriptionLabel" destination="jMq-0d-yaJ" id="aq4-zx-WH3"/>
                         <outlet property="secondTitleLabel" destination="cYe-Mx-VRR" id="nsB-r7-pMH"/>
                         <outlet property="thirdDescriptionLabel" destination="19a-9T-Ndm" id="DMF-2b-h5h"/>

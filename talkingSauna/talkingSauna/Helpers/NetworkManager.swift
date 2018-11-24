@@ -34,6 +34,7 @@ final class NetworkManager {
         completion(nil)
         return
       }
+      print(String(data: data, encoding: .utf8))
       completion(JSON(data))
     }
     loadSession.resume()

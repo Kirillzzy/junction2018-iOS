@@ -11,8 +11,7 @@ import AVFoundation
 class AudioHelper {
   static func playText(string: String) {
     do {
-      try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback,
-                                                      mode: .default)
+      try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient, mode: .default)
     }
     catch {
     }

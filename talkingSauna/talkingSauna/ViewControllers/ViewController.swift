@@ -398,13 +398,13 @@ extension ViewController {
   private func startRecording() throws {
     if audioEngine.isRunning { return }
     
-    let timer = Timer(timeInterval: 5, target: self, selector: #selector(ViewController.timerEnded), userInfo: nil, repeats: false)
+    let timer = Timer(timeInterval: 4, target: self, selector: #selector(ViewController.timerEnded), userInfo: nil, repeats: false)
     RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
     
-    let audioSession = AVAudioSession.sharedInstance()
-    try audioSession.setCategory(AVAudioSession.Category.record, mode: .default)
-    try audioSession.setMode(AVAudioSession.Mode.measurement)
-    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: .default)
+    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.record, mode: .default)
+//    try audioSession.setMode(AVAudioSession.Mode.measurement)
+//    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
     
     recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
     
@@ -454,6 +454,8 @@ extension ViewController {
       playAnimation = false
       stopRecording()
       animateButton.setImage(#imageLiteral(resourceName: "img_button"), for: .normal)
+      let sendString = speechResult.bestTranscription.formattedString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+      NetworkManager.sendRequest(with: "talk?message=\(sendString)") { _ in }
       DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) { [weak self] in
         self?.showQuestionView(false)
       }

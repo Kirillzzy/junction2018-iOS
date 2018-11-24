@@ -82,7 +82,7 @@
                                 <rect key="frame" x="0.0" y="467" width="375" height="200"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hGM-4E-cRE">
-                                        <rect key="frame" x="127.5" y="40" width="120" height="120"/>
+                                        <rect key="frame" x="127.5" y="50" width="120" height="120"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="hGM-4E-cRE" secondAttribute="height" id="kLD-DQ-bga"/>
                                             <constraint firstAttribute="height" constant="120" id="r8M-Q9-OD7"/>
@@ -91,11 +91,22 @@
                                             <action selector="animateButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G1W-uC-6WO"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ol-Lg-hpW">
+                                        <rect key="frame" x="24" y="8" width="327" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="0ol-Lg-hpW" secondAttribute="trailing" constant="24" id="24z-DF-ztC"/>
+                                    <constraint firstItem="0ol-Lg-hpW" firstAttribute="leading" secondItem="oCW-h8-JPC" secondAttribute="leading" constant="24" id="2Du-01-MK2"/>
+                                    <constraint firstItem="0ol-Lg-hpW" firstAttribute="top" secondItem="oCW-h8-JPC" secondAttribute="top" constant="8" id="3Wx-0t-5wT"/>
                                     <constraint firstItem="hGM-4E-cRE" firstAttribute="centerX" secondItem="oCW-h8-JPC" secondAttribute="centerX" id="M01-GS-qJd"/>
                                     <constraint firstAttribute="height" constant="200" id="XlE-RO-YMc"/>
-                                    <constraint firstItem="hGM-4E-cRE" firstAttribute="centerY" secondItem="oCW-h8-JPC" secondAttribute="centerY" id="aGw-eR-q6Q"/>
+                                    <constraint firstItem="hGM-4E-cRE" firstAttribute="centerY" secondItem="oCW-h8-JPC" secondAttribute="centerY" constant="10" id="aGw-eR-q6Q"/>
+                                    <constraint firstItem="hGM-4E-cRE" firstAttribute="top" secondItem="0ol-Lg-hpW" secondAttribute="bottom" constant="8" id="jpO-ZY-HL0"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WTP-5v-kF0" customClass="LineChartView" customModule="Charts">
@@ -162,6 +173,7 @@
                     </view>
                     <connections>
                         <outlet property="animateButton" destination="hGM-4E-cRE" id="VIN-br-SPG"/>
+                        <outlet property="askLabel" destination="0ol-Lg-hpW" id="RQv-TI-FMh"/>
                         <outlet property="chartView" destination="WTP-5v-kF0" id="5Vd-jl-25g"/>
                         <outlet property="fifthDescriptionLabel" destination="1lh-us-b4m" id="rnD-t8-0Is"/>
                         <outlet property="fifthTitleLabel" destination="Djd-9W-ckv" id="ism-dY-RMn"/>

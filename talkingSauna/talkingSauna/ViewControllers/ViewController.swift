@@ -14,12 +14,7 @@ class ViewController: UIViewController {
   
   @IBOutlet var animateButton: UIButton! {
     didSet {
-      animateButton.layer.masksToBounds = true
-      animateButton.backgroundColor = .white
-      animateButton.setTitle("Hearing..", for: .normal)
-      animateButton.titleLabel?.font = UIFont.appFont(.systemMediumFont(size: 22))
-      animateButton.layer.cornerRadius = 60
-//      animateButton.withShadow(color: UIColor.black)
+      animateButton.setImage(#imageLiteral(resourceName: "img_button"), for: .normal)
     }
   }
   @IBOutlet var mainDescriptionLabel: UILabel! {
@@ -106,6 +101,13 @@ class ViewController: UIViewController {
       fifthDescriptionLabel.text = "current enthalpy"
     }
   }
+  @IBOutlet var askLabel: UILabel! {
+    didSet {
+      askLabel.textColor = UIColor.black.withAlphaComponent(0.6)
+      askLabel.font = UIFont.appFont(.systemMediumFont(size: 20))
+      askLabel.text = "Ask current temperature"
+    }
+  }
   @IBOutlet var chartView: LineChartView! {
     didSet {
       chartView.noDataText = ""
@@ -130,7 +132,6 @@ class ViewController: UIViewController {
   }
   private var playAnimation = true
   var pastelView: PastelView!
-  var buttonGradientLayer: CAGradientLayer!
   var longPollService: LongPollSwiftService?
   var timer: Timer?
   var points = [Double]()
@@ -187,11 +188,6 @@ class ViewController: UIViewController {
     pastelView.startAnimation()
     view.insertSubview(pastelView, at: 0)
     
-    buttonGradientLayer = CAGradientLayer()
-    buttonGradientLayer.colors = [UIColor(hexString: "1782FF").cgColor,
-                                  UIColor(hexString: "0A05FF").cgColor]
-    animateButton.layer.insertSublayer(buttonGradientLayer, at: 0)
-    
     longPollService = LongPollSwiftService(longPollUrlInitialString: "reset", delegate: self)
   }
   
@@ -212,7 +208,6 @@ class ViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     pastelView.frame = view.bounds
-    buttonGradientLayer.frame = animateButton.bounds
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -325,6 +320,9 @@ extension ViewController: LongPollSwiftServiceDelegate {
     if jsonEvents["type"].stringValue == "reload" {
       longPollService?.startLongPoll()
       return
+    }
+    if jsonEvents["type"].stringValue == "text" {
+      AudioHelper.playText(string: jsonEvents["message"].stringValue)
     }
     print(jsonEvents)
   }

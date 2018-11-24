@@ -22,6 +22,7 @@
 		9FB0CF0321A9608D007666CA /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0221A9608D007666CA /* JSON.swift */; };
 		9FB0CF0521A960ED007666CA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0421A960ED007666CA /* NetworkManager.swift */; };
 		9FB0CF0721A961C5007666CA /* KeysType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0621A961C5007666CA /* KeysType.swift */; };
+		9FB0CF0A21A99E88007666CA /* AudioHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB0CF0921A99E88007666CA /* AudioHelper.swift */; };
 		FE5E57E586E5597858F9A4E3 /* Pods_talkingSauna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7369C85C6F3D4665AD71B124 /* Pods_talkingSauna.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		9FB0CF0221A9608D007666CA /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		9FB0CF0421A960ED007666CA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9FB0CF0621A961C5007666CA /* KeysType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeysType.swift; sourceTree = "<group>"; };
+		9FB0CF0921A99E88007666CA /* AudioHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioHelper.swift; sourceTree = "<group>"; };
 		A9AA5C4B4C5DE5BBF7A2EEC3 /* Pods-talkingSauna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-talkingSauna.release.xcconfig"; path = "Pods/Target Support Files/Pods-talkingSauna/Pods-talkingSauna.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 				9FB0CF0221A9608D007666CA /* JSON.swift */,
 				9FB0CF0421A960ED007666CA /* NetworkManager.swift */,
 				9FB0CF0621A961C5007666CA /* KeysType.swift */,
+				9FB0CF0921A99E88007666CA /* AudioHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				9FB0CF0721A961C5007666CA /* KeysType.swift in Sources */,
 				9FB0CEF521A89020007666CA /* UIColor+Hex.swift in Sources */,
 				9FB0CF0521A960ED007666CA /* NetworkManager.swift in Sources */,
+				9FB0CF0A21A99E88007666CA /* AudioHelper.swift in Sources */,
 				9FB0CEDD21A88840007666CA /* ViewController.swift in Sources */,
 				9FB0CEF921A89020007666CA /* String+Localize.swift in Sources */,
 				9FB0CEDB21A88840007666CA /* AppDelegate.swift in Sources */,

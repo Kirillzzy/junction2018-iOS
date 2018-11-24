@@ -1,16 +1,22 @@
 PODS:
+  - Charts (3.2.0):
+    - Charts/Core (= 3.2.0)
+  - Charts/Core (3.2.0)
   - Pastel (0.5.1)
 
 DEPENDENCIES:
+  - Charts
   - Pastel
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Charts
     - Pastel
 
 SPEC CHECKSUMS:
+  Charts: 680c8328bd5e90cb14f67e00d2176f3113d19141
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
 
-PODFILE CHECKSUM: e87cb57608d424cc6fd7c4823f72e0c5f5600908
+PODFILE CHECKSUM: 43ab25bc9f1c47112fe8f4619f8fc9a291873c2e
 
 COCOAPODS: 1.5.3

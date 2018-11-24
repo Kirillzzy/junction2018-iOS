@@ -8,6 +8,7 @@
 
 import UIKit
 import Pastel
+import Charts
 
 class ViewController: UIViewController {
   
@@ -19,6 +20,20 @@ class ViewController: UIViewController {
       animateButton.titleLabel?.font = UIFont.appFont(.systemMediumFont(size: 22))
       animateButton.layer.cornerRadius = 60
 //      animateButton.withShadow(color: UIColor.black)
+    }
+  }
+  @IBOutlet var mainDescriptionLabel: UILabel! {
+    didSet {
+      mainDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
+      mainDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
+      mainDescriptionLabel.text = "current condition"
+    }
+  }
+  @IBOutlet var mainTitleLabel: UILabel! {
+    didSet {
+      mainTitleLabel.textColor = .white
+      mainTitleLabel.font = UIFont.appFont(.systemMediumFont(size: 50))
+      mainTitleLabel.text = ""
     }
   }
   @IBOutlet var firstTitleLabel: UILabel! {
@@ -88,7 +103,29 @@ class ViewController: UIViewController {
     didSet {
       fifthDescriptionLabel.textColor = UIColor.white.withAlphaComponent(0.6)
       fifthDescriptionLabel.font = UIFont.appFont(.systemMediumFont(size: 16))
-      fifthDescriptionLabel.text = "was the highest\ntemperature"
+      fifthDescriptionLabel.text = "current enthalpy"
+    }
+  }
+  @IBOutlet var chartView: LineChartView! {
+    didSet {
+      chartView.noDataText = ""
+      chartView.xAxis.drawGridLinesEnabled = false
+      chartView.leftAxis.drawGridLinesEnabled = false
+      chartView.rightAxis.drawGridLinesEnabled = false
+      chartView.leftAxis.removeAllLimitLines()
+      chartView.xAxis.labelPosition = .bottom
+      chartView.xAxis.axisLineColor = UIColor(hexString: "EFEEF0")
+      chartView.leftAxis.axisLineColor = UIColor(hexString: "EFEEF0")
+      chartView.rightAxis.enabled = false
+      chartView.leftAxis.enabled = false
+      chartView.xAxis.enabled = false
+      chartView.chartDescription?.enabled = false
+      chartView.leftAxis.labelTextColor = UIColor(hexString: "9AA1AB")
+      chartView.xAxis.labelTextColor = UIColor(hexString: "9AA1AB")
+      chartView.leftAxis.xOffset = 0
+      chartView.xAxis.yOffset = 0
+      chartView.legend.enabled = false
+      chartView.xAxis.avoidFirstLastClippingEnabled = true
     }
   }
   private var playAnimation = true
@@ -96,11 +133,39 @@ class ViewController: UIViewController {
   var buttonGradientLayer: CAGradientLayer!
   var longPollService: LongPollSwiftService?
   var timer: Timer?
+  var points = [Double]()
+  var lastXTime: Double = 0
+  var quality: Double = 0 {
+    didSet {
+      var string = ""
+      switch quality {
+      case ...100:
+        string = "Wait a bit more ❄️"
+      case 100 ... 200:
+        string = "Just heated 🌝"
+      case 200 ... 300:
+        string = "For oldy 👴🏼"
+      case 300 ... 400:
+        string = "Just right 👌🏻"
+      case 400 ... 500:
+        string = "Hardcore 💥"
+      case 500 ... 600:
+        string = "Hot! 🔥"
+      case 600 ... 650:
+        string = "HELL YEAH 💀"
+      case 650...:
+        string = "I'd call emergency 🚨"
+      default:
+        string = "idk"
+      }
+      mainTitleLabel.text = string
+    }
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    updateData()
+    updateData(first: "m_cache", second: "last_measurements")
     pastelView = PastelView(frame: view.bounds)
     
     // Custom Direction
@@ -135,7 +200,7 @@ class ViewController: UIViewController {
     playAnimation = true
     springImageView()
     
-    timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] _ in
+    timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: { [weak self] _ in
       self?.updateData()
     })
   }
@@ -154,8 +219,8 @@ class ViewController: UIViewController {
     return .lightContent
   }
   
-  func updateData() {
-    NetworkManager.sendRequest(with: "measurements", completion: { json in
+  func updateData(first: String = "measurements", second: String = "last_measurement") {
+    NetworkManager.sendRequest(with: first, completion: { json in
       guard let json = json else { return }
       
       DispatchQueue.main.async { [weak self] in
@@ -163,9 +228,69 @@ class ViewController: UIViewController {
         self?.secondTitleLabel.text = json["outdoor"].stringValue + "°"
         self?.thirdTitleLabel.text = json["stove"].stringValue + "°"
         self?.fourthTitleLabel.text = json["oxygen"].stringValue + "%"
-        self?.fifthTitleLabel.text = json["highest_temperature"].stringValue + "°"
+        self?.quality = json["enthalpy"].doubleValue
       }
     })
+    NetworkManager.sendRequest(with: second) { json in
+      guard let json = json else { return }
+      
+      DispatchQueue.main.async { [weak self] in
+        if second == "last_measurement" {
+          if self?.points.count ?? 0 > 0 {
+            self?.points.remove(at: 0)
+            self?.initialUpdateChart()
+            self?.updateChart(point: json["measurement"].doubleValue)
+            self?.fifthTitleLabel.text = json["measurement"].stringValue
+          }
+          return
+        }
+        var points = [Double]()
+        for item in json["measurements"].arrayValue {
+          points.append(item.doubleValue)
+        }
+        
+        self?.points = points
+        self?.initialUpdateChart()
+      }
+    }
+  }
+  
+  func initialUpdateChart() {
+    var dataEntries: [ChartDataEntry] = []
+    for (index, point) in points.enumerated() {
+      let dataEntry = ChartDataEntry(x: Double(index), y: point)
+      dataEntries.append(dataEntry)
+      lastXTime = Double(index)
+    }
+    let lineChartDataSet = LineChartDataSet(values: dataEntries, label: nil)
+    
+    var colors = [UIColor]()
+    for _ in 0 ..< points.count {
+      colors.append(UIColor(hexString: "76ADE2"))
+    }
+
+    lineChartDataSet.circleColors = colors
+    lineChartDataSet.circleRadius = 0
+    lineChartDataSet.circleHoleRadius = 0
+    lineChartDataSet.mode = .cubicBezier
+    lineChartDataSet.setColor(UIColor.white)
+    lineChartDataSet.lineWidth = 2.4
+    lineChartDataSet.highlightColor = UIColor(hexString: "CAD7EE")
+    lineChartDataSet.highlightLineWidth = 2
+    lineChartDataSet.drawVerticalHighlightIndicatorEnabled = false
+    lineChartDataSet.drawHorizontalHighlightIndicatorEnabled = false
+    
+    let lineChartData = LineChartData(dataSet: lineChartDataSet)
+    lineChartData.setValueTextColor(UIColor.clear)
+    chartView.data = lineChartData
+  }
+  
+  func updateChart(point: Double) {
+    lastXTime += 1
+    points.append(point)
+    chartView.data?.addEntry(ChartDataEntry(x: lastXTime, y: point), dataSetIndex: 0)
+    chartView.notifyDataSetChanged()
+    chartView.moveViewToX(lastXTime)
   }
   
   func springImageView() {

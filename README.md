@@ -1,1 +1,2 @@
-# junction2018-iOS
+# Talking Sauna — Voice assistant for sauna: information and entertainment
+
